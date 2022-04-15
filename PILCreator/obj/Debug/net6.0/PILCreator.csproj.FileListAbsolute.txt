@@ -1,0 +1,15 @@
+C:\Users\jajo7\source\repos\PILCreator\PILCreator\bin\Debug\net6.0\PILCreator.exe
+C:\Users\jajo7\source\repos\PILCreator\PILCreator\bin\Debug\net6.0\PILCreator.deps.json
+C:\Users\jajo7\source\repos\PILCreator\PILCreator\bin\Debug\net6.0\PILCreator.runtimeconfig.json
+C:\Users\jajo7\source\repos\PILCreator\PILCreator\bin\Debug\net6.0\PILCreator.dll
+C:\Users\jajo7\source\repos\PILCreator\PILCreator\bin\Debug\net6.0\PILCreator.pdb
+C:\Users\jajo7\source\repos\PILCreator\PILCreator\obj\Debug\net6.0\PILCreator.csproj.AssemblyReference.cache
+C:\Users\jajo7\source\repos\PILCreator\PILCreator\obj\Debug\net6.0\PILCreator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jajo7\source\repos\PILCreator\PILCreator\obj\Debug\net6.0\PILCreator.AssemblyInfoInputs.cache
+C:\Users\jajo7\source\repos\PILCreator\PILCreator\obj\Debug\net6.0\PILCreator.AssemblyInfo.cs
+C:\Users\jajo7\source\repos\PILCreator\PILCreator\obj\Debug\net6.0\PILCreator.csproj.CoreCompileInputs.cache
+C:\Users\jajo7\source\repos\PILCreator\PILCreator\obj\Debug\net6.0\PILCreator.dll
+C:\Users\jajo7\source\repos\PILCreator\PILCreator\obj\Debug\net6.0\refint\PILCreator.dll
+C:\Users\jajo7\source\repos\PILCreator\PILCreator\obj\Debug\net6.0\PILCreator.pdb
+C:\Users\jajo7\source\repos\PILCreator\PILCreator\obj\Debug\net6.0\PILCreator.genruntimeconfig.cache
+C:\Users\jajo7\source\repos\PILCreator\PILCreator\obj\Debug\net6.0\ref\PILCreator.dll
