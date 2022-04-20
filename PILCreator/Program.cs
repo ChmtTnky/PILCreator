@@ -2,7 +2,7 @@
 string pilfilename = Console.ReadLine();
 
 // get numebr of pim files
-int pimcount = 0;
+int pim_count = 0;
 bool valid = false;
 string input;
 while (!valid)
@@ -12,9 +12,9 @@ while (!valid)
 
     try
     {
-        pimcount = int.Parse(input);
+        pim_count = int.Parse(input);
         valid = true;
-        if (pimcount <= 0)
+        if (pim_count <= 0)
         {
             valid = false;
             Console.WriteLine("Invalid Input");
@@ -29,8 +29,8 @@ while (!valid)
 
 // get pim file names
 valid = false;
-string[] pimnames = new string[pimcount];
-for (int i = 0; i < pimcount; i++)
+string[] pimnames = new string[pim_count];
+for (int i = 0; i < pim_count; i++)
 {
     while (!valid)
     {
@@ -54,37 +54,37 @@ for (int i = 0; i < pimcount; i++)
 }
 
 // get size of byte array
-int pilsize = 0x10; // pil header size
-byte [][] pimfiles = new byte[pimcount][];
-for (int i = 0; i < pimcount; i++)
+int pil_size = 0x10; // pil header size
+byte [][] pimfiles = new byte[pim_count][];
+for (int i = 0; i < pim_count; i++)
 {
     pimfiles[i] = File.ReadAllBytes(pimnames[i]);
-    pilsize += pimfiles[i].Length + 0x10; // extra 16 bytes per pim file
+    pil_size += pimfiles[i].Length + 0x10; // extra 16 bytes per pim file
 }
 
 // combine pim files
-int byteend = 0;
-byte[] pildata = new byte[pilsize];
-pildata[0] = (byte)pimcount;
-byteend += 0x10;
-for (int i = 0; i < pimcount; i++)
+int byte_end = 0;
+byte[] pildata = new byte[pil_size];
+pildata[0] = (byte)pim_count;
+byte_end += 0x10;
+for (int i = 0; i < pim_count; i++)
 {
     Console.WriteLine(i.ToString());
     // get first 8 bytes of pim header
     for (int j = 0; j < 0x08; j++)
     {
-        pildata[byteend++] = pimfiles[i][j];
+        pildata[byte_end++] = pimfiles[i][j];
     }
     // get file name excluding extension
     for (int j = 0; j < pimnames[i].Length - 4; j++)
     {
-        pildata[byteend + j] = (byte)pimnames[i][j];
+        pildata[byte_end + j] = (byte)pimnames[i][j];
     }
-    byteend += 0x18;
+    byte_end += 0x18;
     // write the remaing data
     for (int j = 0x10; j < pimfiles[i].Length; j++)
     {
-        pildata[byteend++] = pimfiles[i][j];
+        pildata[byte_end++] = pimfiles[i][j];
     }
     File.WriteAllBytes(pilfilename + ".PIL", pildata);
 }
