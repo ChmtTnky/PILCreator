@@ -1,100 +1,52 @@
-﻿Console.Write("Enter the name of the new PIL file (NOT including extension): ");
-string pilfilename = Console.ReadLine();
-
-// get numebr of pim files
-int pim_count = 0;
-bool valid = false;
-string input;
-while (!valid)
+﻿namespace PILCreator
 {
-    Console.Write("Enter the number of PIM files to combine: ");
-    input = Console.ReadLine();
-
-    try
-    {
-        pim_count = int.Parse(input);
-        valid = true;
-        if (pim_count <= 0)
-        {
-            valid = false;
-            Console.WriteLine("Invalid Input");
-        }
-    }
-    catch (FormatException)
-    {
-        valid = false;
-        Console.WriteLine("Invalid Input");
-    }
-}
-
-// get pim file names
-valid = false;
-string[] pimnames = new string[pim_count];
-for (int i = 0; i < pim_count; i++)
-{
-    while (!valid)
-    {
-        Console.Write("Enter the names of PIM files to combine: ");
-        input = Console.ReadLine();
-        if (input.Length <= 4)
-        {
-            Console.WriteLine("Invalid Input");
-        }
-        else if (!File.Exists(input))
-        {
-            Console.WriteLine("Invalid Input");
-        }
-        else
-        {
-            valid = true;
-            pimnames[i] = input;
-        }
-    }
-    valid = false;
-}
-
-// get size of byte array
-int pil_size = 0x10; // pil header size
-byte [][] pimfiles = new byte[pim_count][];
-for (int i = 0; i < pim_count; i++)
-{
-    pimfiles[i] = File.ReadAllBytes(pimnames[i]);
-    pil_size += pimfiles[i].Length + 0x10; // extra 16 bytes per pim file
-}
-
-// combine pim files
-int byte_end = 0;
-byte[] pildata = new byte[pil_size];
-pildata[0] = (byte)pim_count;
-byte_end += 0x10;
-for (int i = 0; i < pim_count; i++)
-{
-    Console.WriteLine(i.ToString());
-    // get first 8 bytes of pim header
-    for (int j = 0; j < 0x08; j++)
-    {
-        pildata[byte_end++] = pimfiles[i][j];
-    }
-    // get file name excluding extension
-    for (int j = 0; j < pimnames[i].Length - 4; j++)
-    {
-        pildata[byte_end + j] = (byte)pimnames[i][j];
-    }
-    byte_end += 0x18;
-    // write the remaing data
-    for (int j = 0x10; j < pimfiles[i].Length; j++)
-    {
-        pildata[byte_end++] = pimfiles[i][j];
-    }
-    File.WriteAllBytes(pilfilename + ".PIL", pildata);
-}
-File.WriteAllBytes(pilfilename + ".PIL", pildata);
-
-if (File.Exists(pilfilename + ".PIL"))
-{
-    Console.WriteLine("Successfully created " + pilfilename);
-}
-else
-{
-    Console.WriteLine("Error: PIL File failed to create");
+	public static class Program
+	{
+		static void Main(string[] args)
+		{
+			if (args.Length == 0)
+			{
+				Console.WriteLine(
+					"Takes a folder of PIM files and combines them into a PIL file (alphabetical order)\n" +
+					"Alternatively, takes in the file paths of various PIM files and combines them into a PIL file in the order they were entered\n" +
+					"Example Args:\n" +
+					"PILCreator.exe <Path to Folder>\n" +
+					"PILCreator.exe <Path to first PIM file> <Path to second PIM file> ... <Path to final PIM file>\n");
+				return;
+			}
+			if (args.Length == 1)
+			{
+				if (!Directory.Exists(args[0]))
+				{
+					Console.WriteLine(
+						"Directory does not exist\n");
+					return;
+				}
+				var files = Directory.GetFiles(args[0]);
+				for (int i = 0; i < files.Length; i++)
+				{
+					if (Path.GetExtension(files[i]).ToLower() != ".pim")
+						files[i] = string.Empty;
+				}
+				var file_list = files.ToList();
+				file_list.RemoveAll(f => f == string.Empty);
+				file_list.OrderBy(file => Path.GetFileName(file));
+				if (file_list.Count > 0)
+					PILCreator.GeneratePIL(file_list.ToArray());
+				return;
+			}
+			if (args.Length > 1)
+			{
+				List<string> file_list = new List<string>();
+				foreach (var file in args)
+				{
+					if (File.Exists(file) && Path.GetExtension(file).ToLower() != ".pim")
+						file_list.Add(file);
+				}
+				if (file_list.Count > 0)
+					PILCreator.GeneratePIL(file_list.ToArray());
+				return;
+			}
+		}
+	}
 }

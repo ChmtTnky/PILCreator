@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PILCreator": {
+      "commandName": "Project",
+      "commandLineArgs": "strap_ega00"
+    }
+  }
+}
